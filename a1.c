@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdbool.h>
 
 #define MAX_WORD_LENGTH 10
 #define MAX_LINE_LENGTH 10
@@ -14,17 +13,21 @@
  * @param max_line_length max line length.
  * @return `true` if the word fits; otherwise, `false`.
  */
-bool canAddWordToLine(const char *word, int current_line_length, int max_line_length) {
-  int word_length = strlen(word);
+int canAddWordToLine(const char *word, int current_line_length, int max_line_length) {
+    int word_length = strlen(word);
 
-  // space before word if not first word
-  int space_length = (current_line_length > 0) ? 1 : 0;
+    // space before word if not first word
+    int space_length = (current_line_length > 0) ? 1 : 0;
 
-  // new line length after adding the word
-  int new_line_length = current_line_length + space_length + word_length;
+    // new line length after adding the word
+    int new_line_length = current_line_length + space_length + word_length;
 
-  // check if it fits within the max line length
-  return new_line_length <= max_line_length;
+    // check if it fits within the max line length
+    if (new_line_length <= max_line_length) {
+        return 1;
+    }
+
+    return 0;
 }
 
 /**
@@ -35,36 +38,13 @@ bool canAddWordToLine(const char *word, int current_line_length, int max_line_le
  * @param max_line_length max line length.
  * @param is_last_line flag for last line.
  */
-void printJustifiedLine(char **words, int word_count, int max_line_length, bool is_last_line) {
-  if (word_count == 1) {
-    // if single word, center it
-    int word_length = strlen(words[0]);
-    int total_spaces = max_line_length - word_length;
-    int left_spaces = total_spaces / 2;
-    int right_spaces = total_spaces - left_spaces;
-
-    // left padding
-    for (int i = 0; i < left_spaces; i++) {
-      putchar(' ');
-    }
-
-    // print word
-    printf("%s", words[0]);
-
-    // right padding
-    for (int i = 0; i < right_spaces; i++) {
-      putchar(' ');
-    }
-
-    // newline
-    putchar('\n');
-  } else {
+void printJustifiedLine(char **words, int word_count, int max_line_length) {
     // justify line
     int total_chars = 0;
 
     // sum word lengths
     for (int i = 0; i < word_count; i++) {
-      total_chars += strlen(words[i]);
+        total_chars += strlen(words[i]);
     }
 
     // calculate spaces
@@ -75,24 +55,23 @@ void printJustifiedLine(char **words, int word_count, int max_line_length, bool 
 
     // print words with spaces
     for (int i = 0; i < word_count; i++) {
-      printf("%s", words[i]);
+        printf("%s", words[i]);
 
-      if (i < word_count - 1) {
-        // base spaces
-        for (int s = 0; s < base_space; s++) {
-          putchar(' ');
-        }
+        if (i < word_count - 1) {
+            // base spaces
+            for (int s = 0; s < base_space; s++) {
+                putchar(' ');
+            }
 
-        // extra space
-        if (i < extra_spaces) {
-          putchar(' ');
+            // extra space
+            if (i < extra_spaces) {
+                putchar(' ');
+            }
         }
-      }
     }
 
     // newline
     putchar('\n');
-  }
 }
 
 
@@ -128,8 +107,8 @@ void processHyphenatedWord(char *word, char **words, int *word_count, int *curre
     }
 
     // try adding first part to current line
-    bool added = canAddWordToLine(first_part, *current_line_length, max_line_length);
-    if (added) {
+    int canAdd = canAddWordToLine(first_part, *current_line_length, max_line_length);
+    if (canAdd == 1) {
         words[*word_count] = strdup(first_part);
         (*word_count)++;
         if (*current_line_length > 0) {
@@ -138,7 +117,7 @@ void processHyphenatedWord(char *word, char **words, int *word_count, int *curre
         (*current_line_length) += strlen(first_part);
     } else {
         // print current line
-        printJustifiedLine(words, *word_count, max_line_length, false);
+        printJustifiedLine(words, *word_count, max_line_length);
 
         // reset line
         for (int i = 0; i < *word_count; i++) {
@@ -155,7 +134,7 @@ void processHyphenatedWord(char *word, char **words, int *word_count, int *curre
     }
 
     // print line with first part
-    printJustifiedLine(words, *word_count, max_line_length, false);
+    printJustifiedLine(words, *word_count, max_line_length);
 
     // reset line
     for (int i = 0; i < *word_count; i++) {
@@ -178,22 +157,20 @@ void processHyphenatedWord(char *word, char **words, int *word_count, int *curre
 }
 
 void processFile(const char *filename, int max_line_length) {
-  // Open file and read words
-  // Handle word fitting and hyphenation
-  // Print justified lines
-  // Free allocated memory
-   }
+    // Open file and read words
+    // Handle word fitting and hyphenation
+    // Print justified lines
+    // Free allocated memory
+}
 
 int main(int argc, char *argv[]) {
-  if (argc) {
+    if (argc) {
+    }
+    int max_line_length = atoi(argv);
+    if () {
+        return 1;
+    }
 
-  }
-  int max_line_length = atoi(argv);
-  if () {
-    return 1;
-  }
-
-  processFile(argv, max_line_length);
-  return 0;
-
+    processFile(argv, max_line_length);
+    return 0;
 }
