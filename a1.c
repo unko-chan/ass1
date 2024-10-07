@@ -39,39 +39,43 @@ int canAddWordToLine(const char *word, int current_line_length, int max_line_len
  * @param is_last_line flag for last line.
  */
 void printJustifiedLine(char **words, int word_count, int max_line_length) {
-    // justify line
-    int total_chars = 0;
+    if (word_count == 1) {
+        printf("%s\n", words[0]);
+    } else {
+        // justify line
+        int total_chars = 0;
 
-    // sum word lengths
-    for (int i = 0; i < word_count; i++) {
-        total_chars += strlen(words[i]);
-    }
+        // sum word lengths
+        for (int i = 0; i < word_count; i++) {
+            total_chars += strlen(words[i]);
+        }
 
-    // calculate spaces
-    int total_spaces = max_line_length - total_chars;
-    int gaps = word_count - 1;
-    int base_space = total_spaces / gaps;
-    int extra_spaces = total_spaces % gaps;
+        // calculate spaces
+        int total_spaces = max_line_length - total_chars;
+        int gaps = word_count - 1;
+        int base_space = total_spaces / gaps;
+        int extra_spaces = total_spaces % gaps;
 
-    // print words with spaces
-    for (int i = 0; i < word_count; i++) {
-        printf("%s", words[i]);
+        // print words with spaces
+        for (int i = 0; i < word_count; i++) {
+            printf("%s", words[i]);
 
-        if (i < word_count - 1) {
-            // base spaces
-            for (int s = 0; s < base_space; s++) {
-                putchar(' ');
-            }
+            if (i < word_count - 1) {
+                // base spaces
+                for (int s = 0; s < base_space; s++) {
+                    putchar(' ');
+                }
 
-            // extra space
-            if (i < extra_spaces) {
-                putchar(' ');
+                // extra space
+                if (i < extra_spaces) {
+                    putchar(' ');
+                }
             }
         }
-    }
 
-    // newline
-    putchar('\n');
+        // newline
+        putchar('\n');
+    }
 }
 
 
